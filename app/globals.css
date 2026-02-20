@@ -4,13 +4,6 @@
 
 @layer base {
   :root {
-    /*
-     * SWISS / MINIMALIST THEME — Breaking Habits
-     * Professional, grid-based, trustworthy B2B aesthetic
-     * Navy-charcoal palette with warm amber accent
-     */
-
-    /* Primary color palette — Deep Navy */
     --color-primary: #1E293B;
     --color-primary-hover: #0F172A;
     --color-primary-50: #F8FAFC;
@@ -24,63 +17,54 @@
     --color-primary-800: #1E293B;
     --color-primary-900: #0F172A;
 
-    /* Accent color — Warm Amber (used sparingly, ~5%) */
     --color-accent: #D97706;
     --color-accent-hover: #B45309;
 
-    /* Surface colors */
     --color-surface: #FFFFFF;
     --color-surface-elevated: #F8FAFC;
     --color-surface-subtle: #F1F5F9;
 
-    /* Text colors */
     --color-text: #0F172A;
     --color-text-subdued: #64748B;
     --color-text-inverse: #FFFFFF;
-    --color-text-link: #1E40AF;
+    --color-text-link: #D97706;
 
-    /* Border colors — subtle, thin borders instead of shadows */
     --color-border: #E2E8F0;
-    --color-border-strong: #CBD5E1;
+    --color-border-strong: #334155;
 
-    /* Status colors */
-    --color-success: #059669;
+    --color-success: #16A34A;
     --color-warning: #D97706;
     --color-error: #DC2626;
     --color-info: #2563EB;
 
-    /* Shadow system — minimal, purposeful */
-    --shadow-glow: none;
-    --shadow-glow-hover: none;
-    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-    --shadow-card-hover: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+    --shadow-glow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+    --shadow-glow-hover: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
+    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+    --shadow-card-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
-    /* Border radius — near-zero for Swiss precision */
     --radius-none: 0px;
     --radius-sm: 1px;
     --radius-default: 2px;
 
-    /* Font families — IBM Plex Sans for display/heading, Inter for body */
-    --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
     --font-heading: 'IBM Plex Sans', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   .dark {
     --color-surface: #0F172A;
     --color-surface-elevated: #1E293B;
     --color-surface-subtle: #334155;
-
     --color-text: #F8FAFC;
     --color-text-subdued: #94A3B8;
     --color-text-inverse: #0F172A;
-    --color-text-link: #60A5FA;
-
+    --color-text-link: #FBBF24;
     --color-border: #334155;
-    --color-border-strong: #475569;
-
-    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    --shadow-card-hover: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+    --color-border-strong: #CBD5E1;
+    --shadow-glow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    --shadow-glow-hover: 0 2px 6px 0 rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   }
 
   html {
@@ -96,35 +80,25 @@
 
   h1 {
     font-family: var(--font-display);
-    @apply font-light text-xl leading-tight tracking-tight;
+    @apply font-normal text-xl leading-tight tracking-tight;
   }
 
   h2 {
     font-family: var(--font-heading);
-    @apply font-medium text-lg leading-tight;
+    @apply font-semibold text-lg leading-tight;
   }
 
   h3, h4, h5, h6 {
     font-family: var(--font-heading);
     @apply font-medium;
   }
-
-  ::selection {
-    background-color: #1E293B;
-    color: #FFFFFF;
-  }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-
-  .font-heading {
-    font-family: var(--font-heading);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-  }
+  .font-display { font-family: var(--font-display); }
+  .font-heading { font-family: var(--font-heading); }
+  .font-body { font-family: var(--font-body); }
 }
+
+html { scroll-behavior: smooth; }
+::selection { background-color: rgba(217, 119, 6, 0.15); color: #0F172A; }

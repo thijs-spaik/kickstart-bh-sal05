@@ -1,23 +1,22 @@
-import { Inter, IBM_Plex_Sans } from 'next/font/google'
+import { IBM_Plex_Sans, Inter, Playfair_Display } from 'next/font/google'
 
-// Display + Heading font — IBM Plex Sans: precise, Swiss-inspired
-export const displayFont = IBM_Plex_Sans({
+export const displayFont = Playfair_Display({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-display',
   display: 'swap',
+  weight: ['400', '500', '600', '700'],
 })
 
 export const headingFont = IBM_Plex_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   variable: '--font-heading',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
 })
 
-// Body font — Inter: clean, highly legible
 export const bodyFont = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
+  weight: ['300', '400', '500', '600'],
 })

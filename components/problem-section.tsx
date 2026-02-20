@@ -1,69 +1,39 @@
+import { cn } from '@/lib/utils'
 import { Container } from '@/components/ui/container'
+import { Heading } from '@/components/ui/heading'
+import { Text } from '@/components/ui/text'
 import { Card } from '@/components/ui/card'
 
-interface PainPoint {
-  number: string
-  title: string
-  description: string
-}
+interface ProblemSectionProps { className?: string }
 
-const painPoints: PainPoint[] = [
-  {
-    number: '01',
-    title: 'Geen gestructureerde intake',
-    description: 'Na klantgesprekken bestaan notities uit verspreide Remarkable-aantekeningen en mondelinge afstemming. Er is geen uniform startpunt voor een voorstel.',
-  },
-  {
-    number: '02',
-    title: 'Onvindbare contentbibliotheek',
-    description: 'Bewezen modules en eerdere voorstellen zitten verspreid over Google Drive. Kennis is afhankelijk van individueel geheugen en de beschikbaarheid van Pieter en Thijs.',
-  },
-  {
-    number: '03',
-    title: 'Handmatig knutselproces',
-    description: 'Elk voorstel wordt opgebouwd via copy-paste uit oude presentaties en kampt met Simplicate\'s opmaakproblemen. Een halve dag per voorstel is standaard.',
-  },
-]
-
-export function ProblemSection() {
+export function ProblemSection({ className }: ProblemSectionProps) {
+  const problems = [
+    { number: '01', title: 'Geen gestructureerde intake', description: 'Informatie zit in losse Remarkable-notities, WhatsApp-berichten en herinneringen. Er is geen uniforme output om mee te werken.', impact: 'Elke trainer bouwt een ander soort voorstel' },
+    { number: '02', title: 'Onvindbare content library', description: 'Bewezen modules en eerdere voorstellen zitten verspreid over Google Drive, ongetagd en onvindbaar voor het team.', impact: 'Institutionele kennis blijft ontoegankelijk' },
+    { number: '03', title: 'Geen geautomatiseerde eerste versie', description: 'Elk voorstel wordt van nul opgebouwd door handmatig te zoeken, copy-pasten en formatteren \u2014 een foutgevoelig \u201cknutsel\u201d proces.', impact: 'Halve dag per voorstel, afhankelijk van Pieter/Thijs' },
+  ]
   return (
-    <section className="py-20 md:py-28 bg-surface-subtle" id="solution">
+    <section id="probleem" className={cn('py-xl md:py-[80px] bg-surface-subtle', className)}>
       <Container size="xl">
-        {/* Section Header */}
-        <div className="max-w-2xl mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="inline-block w-8 h-px bg-accent" aria-hidden="true" />
-            <span className="text-xs font-body font-medium text-accent tracking-widest uppercase">
-              Het probleem
-            </span>
-          </div>
-          <h2 className="font-heading font-medium text-2xl md:text-3xl text-text tracking-tight leading-tight mb-4">
-            Elke offerte begint bij nul
-          </h2>
-          <p className="text-md font-body text-text-subdued leading-relaxed">
-            Breaking Habits trainers besteden gemiddeld een halve dag per voorstel — voornamelijk aan zoeken, kopiëren en formatteren. Het kernprobleem is drieledig:
-          </p>
+        <div className="max-w-2xl mb-xl">
+          <div className="flex items-center gap-sm mb-md"><div className="w-8 h-[2px] bg-accent" aria-hidden="true" /><Text size="xs" className="text-accent font-heading font-medium uppercase tracking-widest">Het probleem</Text></div>
+          <Heading level={2} className="text-[28px] md:text-[36px] font-heading font-semibold leading-tight mb-md">Elk voorstel kost een halve dag \u2014 en wordt toch van nul opgebouwd</Heading>
+          <Text className="text-text-subdued leading-relaxed">Breaking Habits trainers besteden gemiddeld 4+ uur per voorstel aan zoeken in Google Drive, kopi\u00ebren uit oude presentaties en worstelen met Simplicate-formatting.</Text>
         </div>
-
-        {/* Pain Points Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
-          {painPoints.map((point) => (
-            <Card
-              key={point.number}
-              variant="default"
-              className="border-0 rounded-none p-8 md:p-10 bg-surface"
-            >
-              <span className="block font-heading font-semibold text-xs text-text-subdued tracking-widest mb-4">
-                {point.number}
-              </span>
-              <h3 className="font-heading font-medium text-md text-text mb-3 tracking-tight">
-                {point.title}
-              </h3>
-              <p className="text-sm font-body text-text-subdued leading-relaxed">
-                {point.description}
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
+          {problems.map((p) => (
+            <Card key={p.number} className="p-lg border border-border bg-surface">
+              <Text as="span" size="xs" className="text-accent font-heading font-semibold block mb-md">{p.number}</Text>
+              <Heading level={3} className="text-md font-heading font-semibold mb-sm">{p.title}</Heading>
+              <Text size="sm" className="text-text-subdued leading-relaxed mb-md">{p.description}</Text>
+              <div className="pt-md border-t border-border"><Text size="xs" className="text-text-subdued"><span className="text-accent font-medium">Impact:</span> {p.impact}</Text></div>
             </Card>
           ))}
+        </div>
+        <div className="mt-xl pt-lg border-t border-border flex flex-col sm:flex-row sm:items-center gap-md">
+          <div className="flex items-baseline gap-sm"><Text as="span" className="text-[40px] font-display text-text">50%</Text><Text size="sm" className="text-text-subdued">van de voorsteltijd gaat naar zoeken en formatteren</Text></div>
+          <div className="hidden sm:block w-[1px] h-8 bg-border mx-md" aria-hidden="true" />
+          <div className="flex items-baseline gap-sm"><Text as="span" className="text-[40px] font-display text-text">0</Text><Text size="sm" className="text-text-subdued">voorstellen gebruiken een gestandaardiseerd template</Text></div>
         </div>
       </Container>
     </section>

@@ -1,131 +1,53 @@
+import { cn } from '@/lib/utils'
 import { Container } from '@/components/ui/container'
+import { Heading } from '@/components/ui/heading'
+import { Text } from '@/components/ui/text'
 
-interface WorkflowStep {
-  number: string
-  title: string
-  description: string
-  status: 'proven' | 'needs-validation'
-  tools: string[]
-}
+interface WorkflowSectionProps { className?: string }
+interface WorkflowStep { number: string; title: string; description: string; tool: string; status: 'proven' | 'validate' | 'workaround' }
 
-const steps: WorkflowStep[] = [
-  {
-    number: '01',
-    title: 'Intake via formulier',
-    description: 'Trainer vult direct na klantgesprek een Typeform in: klantnaam, sector, doelgroep, gewenst resultaat, duur, budget en vrije notities.',
-    status: 'proven',
-    tools: ['Typeform', 'n8n Trigger'],
-  },
-  {
-    number: '02',
-    title: 'OCR & veldvalidatie',
-    description: 'Foto\'s van Remarkable-notities worden via GPT-4o vision omgezet naar tekst. Ontbrekende verplichte velden worden gedetecteerd en teruggestuurd.',
-    status: 'needs-validation',
-    tools: ['OpenAI GPT-4o', 'Gmail / Slack'],
-  },
-  {
-    number: '03',
-    title: 'Google Drive zoeken',
-    description: 'Automatisch zoeken naar vergelijkbare eerdere voorstellen op basis van sector en doelstellingen. Maximaal 5 resultaten, getruneerd tot 800 tokens elk.',
-    status: 'proven',
-    tools: ['Google Drive API', 'Keyword Search'],
-  },
-  {
-    number: '04',
-    title: 'AI concept generatie',
-    description: 'GPT-4o genereert een gestructureerd voorstel met 8 secties in Breaking Habits tone-of-voice, inclusief context uit eerdere voorstellen.',
-    status: 'proven',
-    tools: ['OpenAI GPT-4o', 'n8n'],
-  },
-  {
-    number: '05',
-    title: 'Google Doc & governance',
-    description: 'Concept wordt automatisch in een Google Doc template geplaatst. Bij voorstellen boven €10.000 krijgt Pieter een Slack-notificatie voor review.',
-    status: 'proven',
-    tools: ['Google Docs API', 'Slack'],
-  },
-  {
-    number: '06',
-    title: 'Oplevering aan trainer',
-    description: 'Trainer ontvangt een link naar het bewerkbare Google Doc via email of Slack — klaar om te reviewen, aan te passen en te versturen.',
-    status: 'proven',
-    tools: ['Gmail / Slack', 'Google Docs'],
-  },
-]
-
-export function WorkflowSection() {
+export function WorkflowSection({ className }: WorkflowSectionProps) {
+  const steps: WorkflowStep[] = [
+    { number: '01', title: 'Intake formulier indienen', description: 'Trainer vult Typeform in na klantgesprek: klantnaam, sector, doelgroep, gewenst resultaat, duur, budgetindicatie en vrije notities.', tool: 'Typeform \u2192 n8n Trigger', status: 'proven' },
+    { number: '02', title: 'OCR van handgeschreven notities', description: 'Foto van Remarkable-notities wordt automatisch omgezet naar gestructureerde tekst via GPT-4o Vision.', tool: 'OpenAI GPT-4o Vision', status: 'validate' },
+    { number: '03', title: 'Velden valideren & feedback', description: 'n8n controleert of alle verplichte velden aanwezig zijn. Bij ontbrekende velden ontvangt de trainer automatisch een melding.', tool: 'n8n IF-node + Gmail/Slack', status: 'proven' },
+    { number: '04', title: 'Vergelijkbare voorstellen zoeken', description: 'Google Drive doorzoeken op sector + doel-keywords. Top 3 resultaten gedownload en ingekort tot 800 tokens elk.', tool: 'Google Drive API', status: 'proven' },
+    { number: '05', title: 'Concept-voorstel genereren', description: 'GPT-4o genereert een compleet voorstel met 8 secties in Breaking Habits tone-of-voice.', tool: 'OpenAI GPT-4o (temp 0.4)', status: 'proven' },
+    { number: '06', title: 'Google Doc aanmaken', description: 'Master template kopi\u00ebren via Drive API, placeholders vervangen met gegenereerde content via Docs batchUpdate.', tool: 'Google Docs API', status: 'validate' },
+    { number: '07', title: 'Governance check (\u20ac10k+)', description: 'Bij voorstellen boven \u20ac10.000 wordt automatisch een Slack-bericht naar Pieter gestuurd voor review.', tool: 'n8n IF-node + Slack', status: 'proven' },
+    { number: '08', title: 'Trainer notificatie', description: 'Trainer ontvangt een link naar het Google Doc per e-mail of Slack. Direct klaar voor review.', tool: 'Gmail / Slack', status: 'proven' },
+  ]
+  const statusLabels = { proven: { label: 'Bewezen', className: 'text-success' }, validate: { label: 'Te valideren', className: 'text-warning' }, workaround: { label: 'Workaround', className: 'text-info' } }
   return (
-    <section className="py-20 md:py-28 bg-surface" id="workflow">
+    <section id="workflow" className={cn('py-xl md:py-[80px] bg-surface-subtle', className)}>
       <Container size="xl">
-        {/* Section Header */}
-        <div className="max-w-2xl mb-16">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="inline-block w-8 h-px bg-accent" aria-hidden="true" />
-            <span className="text-xs font-body font-medium text-accent tracking-widest uppercase">
-              Workflow
-            </span>
-          </div>
-          <h2 className="font-heading font-medium text-2xl md:text-3xl text-text tracking-tight leading-tight mb-4">
-            Zes stappen, volledig automatisch
-          </h2>
-          <p className="text-md font-body text-text-subdued leading-relaxed">
-            De n8n-pipeline verwerkt elk intake-formulier door een betrouwbare keten van validatie, zoeken, generatie en oplevering.
-          </p>
+        <div className="max-w-2xl mb-xl">
+          <div className="flex items-center gap-sm mb-md"><div className="w-8 h-[2px] bg-accent" aria-hidden="true" /><Text size="xs" className="text-accent font-heading font-medium uppercase tracking-widest">De workflow</Text></div>
+          <Heading level={2} className="text-[28px] md:text-[36px] font-heading font-semibold leading-tight mb-md">8 stappen, volledig geautomatiseerd via n8n</Heading>
+          <Text className="text-text-subdued leading-relaxed">Van Typeform-inzending tot Google Doc in de inbox van de trainer.</Text>
         </div>
-
-        {/* Workflow Steps */}
-        <div className="relative">
-          {/* Vertical line connector */}
-          <div className="absolute left-4 md:left-6 top-0 bottom-0 w-px bg-border hidden md:block" aria-hidden="true" />
-
-          <div className="space-y-0">
-            {steps.map((step, index) => (
-              <div
-                key={step.number}
-                className="relative grid grid-cols-1 md:grid-cols-[48px_1fr] gap-4 md:gap-8 py-8 border-b border-border last:border-b-0"
-              >
-                {/* Step Number */}
-                <div className="flex items-start">
-                  <span className="relative z-10 flex items-center justify-center w-8 h-8 md:w-12 md:h-12 bg-surface border border-border font-heading font-semibold text-xs text-text-subdued tracking-widest">
-                    {step.number}
-                  </span>
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-12">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="font-heading font-medium text-md text-text tracking-tight">
-                        {step.title}
-                      </h3>
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 text-xs font-body tracking-wide ${
-                          step.status === 'proven'
-                            ? 'bg-success/10 text-success'
-                            : 'bg-warning/10 text-warning'
-                        }`}
-                      >
-                        {step.status === 'proven' ? '✓ Bewezen' : '⚠ Validatie nodig'}
-                      </span>
-                    </div>
-                    <p className="text-sm font-body text-text-subdued leading-relaxed max-w-xl">
-                      {step.description}
-                    </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-xl gap-y-0">
+          {steps.map((step) => (
+            <div key={step.number} className="relative py-md border-b border-border group">
+              <div className="flex gap-md">
+                <Text as="span" size="xs" className="text-accent font-heading font-semibold w-6 pt-[2px] shrink-0">{step.number}</Text>
+                <div className="flex-1">
+                  <div className="flex items-start justify-between gap-md mb-xs">
+                    <Heading level={3} className="text-md font-heading font-semibold">{step.title}</Heading>
+                    <Text as="span" size="xs" className={cn('font-heading font-medium shrink-0', statusLabels[step.status].className)}>{statusLabels[step.status].label}</Text>
                   </div>
-
-                  {/* Tools */}
-                  <div className="flex flex-wrap gap-2 md:min-w-[200px]">
-                    {step.tools.map((tool) => (
-                      <span
-                        key={tool}
-                        className="inline-flex items-center px-2.5 py-1 text-xs font-body text-text-subdued border border-border tracking-wide"
-                      >
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
+                  <Text size="sm" className="text-text-subdued leading-relaxed mb-sm">{step.description}</Text>
+                  <Text size="xs" className="text-text-subdued font-heading"><span className="text-primary-500">\u2192</span> {step.tool}</Text>
                 </div>
               </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-xl pt-lg border-t border-border">
+          <Text size="xs" className="text-text-subdued font-heading font-medium uppercase tracking-wider mb-md">Output secties in elk voorstel</Text>
+          <div className="flex flex-wrap gap-sm">
+            {['Aanleiding','Doelstelling','Doelgroep','Aanpak & Modules','Planning','Investering','Randvoorwaarden','Volgende stap'].map((s) => (
+              <span key={s} className="px-md py-xs text-sm font-heading text-text border border-border bg-surface">{s}</span>
             ))}
           </div>
         </div>

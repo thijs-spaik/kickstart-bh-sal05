@@ -1,38 +1,22 @@
+import { cn } from '@/lib/utils'
 import { Container } from '@/components/ui/container'
+import { Text } from '@/components/ui/text'
 
-export function Footer() {
+interface FooterProps { className?: string }
+
+export function Footer({ className }: FooterProps) {
   return (
-    <footer className="py-12 bg-surface border-t border-border">
+    <footer className={cn('py-lg border-t border-border', className)}>
       <Container size="xl">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          {/* Brand */}
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 bg-accent" aria-hidden="true" />
-            <span className="font-heading font-semibold text-sm text-text tracking-tight">
-              Breaking Habits
-            </span>
-            <span className="text-text-subdued text-xs font-body ml-2">
-              × SPAIK
-            </span>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-md">
+          <div className="flex items-center gap-sm">
+            <div className="w-6 h-6 bg-primary flex items-center justify-center"><span className="text-text-inverse font-heading font-bold text-xs">BH</span></div>
+            <Text size="sm" className="text-text-subdued font-heading">Breaking Habits \u00d7 SPAIK</Text>
           </div>
-
-          {/* Links */}
-          <nav className="flex items-center gap-6" aria-label="Footer navigation">
-            <a href="#solution" className="text-xs font-body text-text-subdued hover:text-text transition-colors duration-150 tracking-wide uppercase">
-              Oplossing
-            </a>
-            <a href="#workflow" className="text-xs font-body text-text-subdued hover:text-text transition-colors duration-150 tracking-wide uppercase">
-              Workflow
-            </a>
-            <a href="#results" className="text-xs font-body text-text-subdued hover:text-text transition-colors duration-150 tracking-wide uppercase">
-              Resultaat
-            </a>
-          </nav>
-
-          {/* Meta */}
-          <p className="text-xs font-body text-text-subdued tracking-wide">
-            SAL05 — Automated Proposal Drafting
-          </p>
+          <div className="flex items-center gap-lg">
+            <Text size="xs" className="text-text-subdued">SAL05 \u2014 Automated Proposal Drafting</Text>
+            <Text size="xs" className="text-text-subdued">Demo prototype</Text>
+          </div>
         </div>
       </Container>
     </footer>
